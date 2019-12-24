@@ -2,7 +2,7 @@
 Codes for doing PC-guided protein structure refinement
 
 
-A cleaner example is provided in the folder ExampleForTR894/
+A cleaner example of the target TR894 is provided in the folder ExampleForTR894/
 
 For details about the model and its application, please see and reference to:
 
