@@ -1,1 +1,4 @@
 
+Command line in job submission:
+
+gmx mdrun -s run.tpr -plumed plumed.PCbias.dat -maxh 23.9 -cpo state.cpt -cpi state.cpt -noappend
