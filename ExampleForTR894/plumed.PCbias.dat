@@ -1,0 +1,29 @@
+#UNITS LENGTH=nm TIME=ps ENERGY=kcal/mol
+MOLINFO STRUCTURE=processed.pdb
+WHOLEMOLECULES RESIDUES=all MOLTYPE=protein
+# PC calculation;
+PCARMSD ...
+AVERAGE=reference.newbox.CA.pdb
+EIGENVECTORS=pca-comp.pdb
+LABEL=pcarmsd
+... PCARMSD
+
+#restraining potential defined here, this is just quadratic
+COMBINE LABEL=pcarmsd1_scaled ARG=pcarmsd.eig-1 POWERS=1 PARAMETERS=0.0 COEFFICIENTS=2.966 PERIODIC=NO
+
+#restraining potential defined here, this is just quadratic
+#restraint-pcs: RESTRAINT ARG=pcarmsd_scaled AT=RefValue KAPPA=500.0
+MOVINGRESTRAINT ...
+ARG=pcarmsd1_scaled
+STEP0=0 AT0=RefValue KAPPA0=0.0
+STEP1=500000 AT1=RefValue KAPPA1=200.0
+STEP2=1500000 AT2=RefValue KAPPA2=200.0
+STEP3=2000000 AT3=RefValue KAPPA3=5.0
+STEP4=1000000000000000
+LABEL=moving-restraint-pcs
+... MOVINGRESTRAINT
+
+# To print Q;
+PRINT STRIDE=50000 ARG=pcarmsd1_scaled.* FILE=pcarmsd.txt
+#PRINT STRIDE=50000 ARG=restraint-pcs.* FILE=bias.txt
+PRINT STRIDE=50000 ARG=moving-restraint-pcs.* FILE=moving_bias.txt
